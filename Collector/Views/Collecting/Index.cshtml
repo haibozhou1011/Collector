@@ -1,0 +1,94 @@
+﻿@model  Collector.Models.CollectionViewModel
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+    <!-- CSS goes in the document HEAD or added to your external stylesheet -->
+    <style type="text/css">
+        table.gridtable {
+            font-family: verdana,arial,sans-serif;
+            font-size: 11px;
+            color: #333333;
+            border-width: 1px;
+            border-color: #666666;
+            border-collapse: collapse;
+        }
+
+            table.gridtable th {
+                border-width: 1px;
+                padding: 8px;
+                border-style: solid;
+                border-color: #666666;
+                background-color: #dedede;
+            }
+
+            table.gridtable td {
+                border-width: 1px;
+                padding: 8px;
+                border-style: solid;
+                border-color: #666666;
+                background-color: #ffffff;
+            }
+    </style>
+</head>
+<body>
+    <div>
+        @using (Html.BeginForm("Index", "Collecting", FormMethod.Post))
+        {
+            <table>
+                <tr>
+                    <td>采集地址：</td>
+                    <td>
+                        @Html.TextAreaFor(m => m.CollectionUrl, 4, 0, new { style = "width:1500px;" })
+                    </td>
+                    
+                </tr>
+                <tr><td colspan="2" style="text-align: right;"><input type="submit" value="开始采集" /></td></tr>
+            </table>
+        }
+    </div>
+    <div>
+        <table class="gridtable">
+            <thead>
+                <tr>
+                    <th width="5%">编号</th>
+                    <th width="5%">图片</th>
+                    <th width="30%">产品名称</th>
+
+                    <th width="10%">产品单价</th>
+                    <th width="10%">产品参考单价</th>
+                    <th width="10%">产品币别</th>
+                    <th width="10%">产品颜色</th>
+                    <th width="10%">产品大小</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    var i = 0;
+                    if (Model == null || Model.ProductViews == null)
+                    {
+                        return;
+                    }
+                }
+                @foreach (var collectedProduct in Model.ProductViews)
+                {
+                    <tr>
+                        <td align="center">@{i++;}@i</td>
+                        <td><img src="@collectedProduct.ProductImages.FirstOrDefault().ImageUrl" width="60" height="60" /></td>
+                        <td>@collectedProduct.ProductName</td>
+                        <td>@collectedProduct.ProductDiscountPrice</td>
+                        <td>@collectedProduct.ProductPrice</td>
+                        <td>@collectedProduct.ProductCurrency</td>
+                        <td>@collectedProduct.ProductColor</td>
+                        <td>@collectedProduct.ProductSize</td>
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+    </div>
+</body>
+</html>
